@@ -43,14 +43,7 @@ public class HangmanServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		session = request.getSession();
-		if (this.hangman == null ){
-			this.hangman = new Hangman();
-			players.put(session, this.hangman);		
-		} 
-		else {
-			this.hangman = players.get(session);
-		}
-		
+		setPlayer(session);
 		response.setContentType("text/html");		
 		String op = request.getParameter("op");
 		
@@ -94,6 +87,16 @@ public class HangmanServlet extends HttpServlet {
 		out.println(htmlDynamicPage(message));
 		out.println(session.getId());
 		out.close();
+	}
+
+	private void setPlayer(HttpSession playerSession) {
+		if (players.containsKey(playerSession) ) {
+			this.hangman = players.get(playerSession);
+		}
+		else {
+			this.hangman = new Hangman();
+			players.put(playerSession, this.hangman);
+		}
 	}
 
 	/**
