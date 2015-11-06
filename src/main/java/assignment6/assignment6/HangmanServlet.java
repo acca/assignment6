@@ -4,12 +4,14 @@ package assignment6;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class HangmanServlet
@@ -19,6 +21,14 @@ public class HangmanServlet extends HttpServlet {
 
     Hangman hangman = null;
     String message = "";
+    HttpSession session;
+    HashMap<HttpSession,Hangman> players = null;
+    
+    @Override
+    public void init() throws ServletException {
+    	super.init();
+    	if (players == null) players = new HashMap<HttpSession,Hangman>();
+    }
     
     /**
      * @see HttpServlet#HttpServlet()
@@ -32,8 +42,16 @@ public class HangmanServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
-		if (this.hangman == null ) this.hangman = new Hangman();
+		session = request.getSession();
+		if (this.hangman == null ){
+			this.hangman = new Hangman();
+			players.put(session, this.hangman);		
+		} 
+		else {
+			this.hangman = players.get(session);
+		}
+		
+		response.setContentType("text/html");		
 		String op = request.getParameter("op");
 		
 		if (!this.hangman.isFinish()) message = "INFO: Please insert a letter and press <b>Check</b> button or press <b>Reload</b> to change word";		
@@ -58,6 +76,7 @@ public class HangmanServlet extends HttpServlet {
     			break;
     		case "Reload":
     			this.hangman = new Hangman();
+    			players.put(session, this.hangman);
     			message = "INFO: Please insert a letter and press <b>Check</b> button or press <b>Reload</b> to change word";
     			break;
     		default:
@@ -73,6 +92,7 @@ public class HangmanServlet extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		out.println(htmlDynamicPage(message));
+		out.println(session.getId());
 		out.close();
 	}
 
