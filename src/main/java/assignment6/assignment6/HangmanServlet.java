@@ -73,19 +73,12 @@ public class HangmanServlet extends HttpServlet {
     			message = "INFO: Please insert a letter and press <b>Check</b> button or press <b>Reload</b> to change word";
     			break;
     		default:
-    			// Operation non congrua
+    			// Just reload page
 			}
 		}
-		else {
-			//Nessuna richiesta, ricarica la pagina
-		}
-		
-		
-		//String reload = request.getParameter("reload");
 		
 		PrintWriter out = response.getWriter();
 		out.println(htmlDynamicPage(message));
-		out.println(session.getId());
 		out.close();
 	}
 
@@ -144,7 +137,10 @@ public class HangmanServlet extends HttpServlet {
 		return body;
 	}
 	private String pageFooter() {
-		return "</html>";
+		String footer = 
+				"<br /><br /><br /><i>Your session ID: " + session.getId() + "</i>" +
+				"</html>";
+		return footer;
 	}
 	
 	private String htmlDynamicPage(String errorMsg) {		
