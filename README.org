@@ -1,0 +1,54 @@
+#+AUTHOR: Daniele Santoro
+#+TITLE: Hangman game using Java Servlets
+#+DATE: 06/11/2015
+
+* Introduction
+  Code and documentation are present at this link: https://github.com/acca/assignment6.
+  
+  This application demonstrates a basic utilization of Java Servlet technology.
+
+  I've deployed:
+  - *The Servlet*: Implements =HttpServlet= which manages the clients request efficiently using threads. 
+  - *The Hangman game class*: Contains the business logic of the Hangman game.
+
+* Implementation
+
+  Specific functionality of each class/files are described below:
+
+  - *HangmanServlet.java*: It manages the requests coming to the web-server (tomcat) and outputs the HTML page to the client (browser). The following parameters are checked in the HTTP request:
+   - =op=: Operation to be performed. Can be =Check= to check the letter or =Reload= to reload the game.
+   - =word=: Contains the char to be checked
+
+   The Servlet generates the HTML page and also the HTML form which includes some controls like =autofocus= and =maxlength= on the input text =checked= on the default button.
+
+   It manages the sessions in order to allow concurrent players and to store the game status. It generates a session object of type HttpSession (stored in cookies in the client side) for each client and link it with the game status in an HashMap. For this reason the session is not persistent, therefore if the session is expired the game last status is lost and a new game is generated from scratch.
+  - *Hangman.java*: The core business logic of the game is in this class. Once instantiated this object stores the status of the game for each player. It generates a random word from a predefined list and provides methods to retrieve: the list of missed letters, the last guessed, the remaining attempts and the semi-hidden word to be printed by the Servlet on the HTML page.
+  - *web.xml*: Contains configuration of the web project, like the Servlet names, mapping and URL exposed to the client.
+  - *index.jsp*: Just a JSP page which redirect the user to the Servlet.
+* Deployment
+  The repository contains a /Maven/ based project developed using Eclipse which can be deployed following the below instructions.
+** Deploy & Run
+   1) Download the repository using git:
+      #+BEGIN_EXAMPLE
+      git clone https://github.com/acca/assignment6.git
+      #+END_EXAMPLE
+   2) Move into the project main folder
+      #+BEGIN_EXAMPLE
+      cd ./assignment6
+      #+END_EXAMPLE
+   3) Build the web application
+      #+BEGIN_EXAMPLE
+      mvn install
+      #+END_EXAMPLE
+   4) Move the generated =target/hangman.war= file into your Tomcat =webapps= folder
+      #+BEGIN_EXAMPLE
+      cp target/hangman.war $TOMCAT_HOME/webapps
+      #+END_EXAMPLE
+   5) Have a nice time playing with the game browsing the following address:
+      http://localhost:8080/hangman/HangmanServlet
+
+** Screen-shots
+   I think that a demo is better than many screen-shots, for this reason I've deployed the application on a public tomcat server available at the following address:
+   http://PUBLIC_IP_ADDRESS:8080/hangman/ /(IP address will be shared only in the mail to the teacher for security reasons)/
+
+   It is possible to test multi-users and state-full functionalities of the game using different browsers or starting a private session in the browser.
