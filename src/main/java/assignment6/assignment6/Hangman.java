@@ -1,7 +1,9 @@
 package assignment6;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 
 public class Hangman {
 
@@ -12,25 +14,49 @@ public class Hangman {
 	private HashSet<Character> missedChars;
 	private HashSet<Character> guessedChars;
 	private Character guess;
+	int counter;
 	
 	public Hangman() {
 		attempts = 9;
-		misteryWord = "ciao";
+		misteryWord = getRandomWord();
 		missedChars = new HashSet<Character>();
 		guessedChars = new HashSet<Character>();
 		end = false;
 		win = false;
 		guess = null;
+		counter = 0;
 	}
 	
+	private String getRandomWord() {
+		ArrayList<String> words = new ArrayList<String>();
+		words.add("hello");
+		words.add("webarchitecture");
+		words.add("sun");
+		words.add("unreachable");
+		words.add("tree");
+		words.add("animal");
+		words.add("telephone");
+		words.add("water");
+		words.add("science");
+		words.add("intermolecular");
+		words.add("nobody");
+		words.add("elements");		
+		Random randomGenerator;
+		randomGenerator = new Random();
+		int index = randomGenerator.nextInt(words.size());
+		return words.get(index);
+	}
+
 	public void checkLetter(Character c) {
 		if (misteryWord.indexOf(c) == -1) {
 			missedChars.add(new Character(Character.toLowerCase(c)));
 			this.attempts--;
 		}
-		else {
+		else {			
 			guessedChars.add(new Character(Character.toLowerCase(c)));
-			if (guessedChars.size() == misteryWord.length()) {
+			int count = misteryWord.length() - misteryWord.replace(c.toString(), "").length();
+			counter += count;
+			if (counter == misteryWord.length()) {
 				this.end = true;
 				this.win = true;
 			}
