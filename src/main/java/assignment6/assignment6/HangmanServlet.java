@@ -86,7 +86,7 @@ public class HangmanServlet extends HttpServlet {
 
 	private String submitForm(){
 		String form = 
-				"<form method=\"get\" action=\"HangmanServlet\">" +
+				"<form method=\"post\" action=\"HangmanServlet\">" +
 				"<input type=\"text\" name=\"word\" size=\"10\" maxlength=\"1\" autofocus/><br />" +
 				"<input type=\"submit\" name=\"op\" value=\"Check\" checked/>" +
 				"<input type=\"submit\" name=\"op\" value=\"Reload\" />" +				
