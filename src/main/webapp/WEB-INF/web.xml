@@ -8,7 +8,7 @@
   	<servlet-name>HangmanServlet</servlet-name>
   	<display-name>HangmanServlet</display-name>
   	<description></description>
-  	<servlet-class>HangmanServlet</servlet-class>
+  	<servlet-class>assignment6.HangmanServlet</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>HangmanServlet</servlet-name>
