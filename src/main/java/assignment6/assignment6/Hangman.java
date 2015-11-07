@@ -48,7 +48,7 @@ public class Hangman {
 	}
 
 	public void checkLetter(Character c) {
-		if (misteryWord.indexOf(c) == -1) {
+		if (misteryWord.indexOf(Character.toLowerCase(c)) == -1) {
 			missedChars.add(new Character(Character.toLowerCase(c)));
 			this.attempts--;
 		}
