@@ -54,7 +54,7 @@ public class Hangman {
 		}
 		else {			
 			guessedChars.add(new Character(Character.toLowerCase(c)));
-			int count = misteryWord.length() - misteryWord.replace(c.toString(), "").length();
+			int count = misteryWord.length() - misteryWord.replace(c.toString().toLowerCase(), "").length();
 			counter += count;
 			if (counter == misteryWord.length()) {
 				this.end = true;
